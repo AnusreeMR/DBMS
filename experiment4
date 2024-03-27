@@ -1,0 +1,66 @@
+1, List all customer details. 
+
+mysql> select * from customer;
++-------+--------+-------------+-----------+-----------+
+| id    | name   | address     | city      | ph_no     |
++-------+--------+-------------+-----------+-----------+
+| 10001 | Maya   | abc(h)zo(p) | ekm       | 759309853 |
+| 10002 | Ram    | xyz(h)w(p)  | kozhikode | 987653210 |
+| 10003 | kunju  | bcd(h)o(p)  | tvm       |      NULL |
+| 10004 | chikku | mno(h)a(p)  | tvm       | 904567891 |
+| 10005 | minnu  | hos(h)lk(p) | ekm       | 904567891 |
++-------+--------+-------------+-----------+-----------+
+5 rows in set (0.00 sec)
+
+2, List pname, price of all products.
+mysql> select pname,price from Product;
++-----------+-------+
+| pname     | price |
++-----------+-------+
+| pencil    |    17 |
+| pen       |    20 |
+| A4 Sheet  |   102 |
+| Bottle    |    51 |
+| color pen |    82 |
++-----------+-------+
+5 rows in set (0.00 sec)
+
+
+3, List all duplicates item avoid duplicates.
+
+mysql> select distinct pid from Invoice_item;
++------+
+| pid  |
++------+
+| 3001 |
+| 3002 |
+| 3003 |
+| 3004 |
+| 3005 |
++------+
+5 rows in set (0.00 sec)
+
+4, List product price between 50rs and 150rs 
+
+mysql> select * from Product where price between 50 and 150;
++------+-----------+-------+
+| pid  | pname     | price |
++------+-----------+-------+
+| 3003 | A4 Sheet  |   102 |
+| 3004 | Bottle    |    51 |
+| 3005 | color pen |    82 |
++------+-----------+-------+
+3 rows in set (0.01 sec)
+
+5, List the customer details who lives in ‘ekm’,’tvm’.
+
+mysql> select * from customer where city='ekm' or 'tvm';
++-------+-------+-------------+------+-----------+
+| id    | name  | address     | city | ph_no     |
++-------+-------+-------------+------+-----------+
+| 10001 | Maya  | abc(h)zo(p) | ekm  | 759309853 |
+| 10005 | minnu | hos(h)lk(p) | ekm  | 904567891 |
++-------+-------+-------------+------+-----------+
+2 rows in set, 1 warning (0.00 sec)
+
+
