@@ -1,0 +1,103 @@
+1.List the product name and quantity of invoice items. 
+
+mysql> select * from Product;
++------+-----------+-------+
+| pid  | pname     | price |
++------+-----------+-------+
+| 3001 | pencil    |    17 |
+| 3002 | pen       |    20 |
+| 3003 | A4 Sheet  |   102 |
+| 3004 | Bottle    |    51 |
+| 3005 | color pen |    82 |
++------+-----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    104 | 3005 |        4 |
+|    102 | 3003 |        2 |
+|    103 | 3004 |        5 |
+|    105 | 3005 |        4 |
+|    101 | 3001 |        1 |
+|    101 | 3002 |        1 |
++--------+------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select Product.pname,Invoice_item.quantity from Product inner join Invoice_item on Product.pid=Invoice_item.pid;
++-----------+----------+
+| pname     | quantity |
++-----------+----------+
+| pencil    |        1 |
+| pen       |        1 |
+| A4 Sheet  |        2 |
+| Bottle    |        5 |
+| color pen |        4 |
+| color pen |        4 |
++-----------+----------+
+6 rows in set (0.00 sec)
+
+
+2. Display invoice details of the transaction dated ’31-01-2022’. 
+
+
+mysql> select * from Product;
++------+-----------+-------+
+| pid  | pname     | price |
++------+-----------+-------+
+| 3001 | pencil    |    17 |
+| 3002 | pen       |    20 |
+| 3003 | A4 Sheet  |   102 |
+| 3004 | Bottle    |    51 |
+| 3005 | color pen |    82 |
++------+-----------+-------+
+5 rows in set (0.03 sec)
+
+mysql> select * from customer;
++-------+--------+-------------+-----------+-----------+
+| id    | name   | address     | city      | ph_no     |
++-------+--------+-------------+-----------+-----------+
+| 10001 | Maya   | abc(h)zo(p) | ekm       | 759309853 |
+| 10002 | Ram    | xyz(h)w(p)  | kozhikode | 987653210 |
+| 10003 | kunju  | bcd(h)o(p)  | tvm       |      NULL |
+| 10004 | chikku | mno(h)a(p)  | tvm       | 904567891 |
+| 10005 | minnu  | hos(h)lk(p) | ekm       | 904567891 |
++-------+--------+-------------+-----------+-----------+
+5 rows in set (0.43 sec)
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    104 | 3005 |        4 |
+|    102 | 3003 |        2 |
+|    103 | 3004 |        5 |
+|    105 | 3005 |        4 |
+|    101 | 3001 |        1 |
+|    101 | 3002 |        1 |
++--------+------+----------+
+6 rows in set (0.01 sec)
+
+mysql> select * from Invoice_master;
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    101 |   10001 | 2023-01-10 |
+|    102 |   10002 | 2021-01-01 |
+|    103 |   10003 | 2021-05-19 |
+|    104 |   10004 | 2023-10-25 |
+|    105 |   10005 | 2023-04-18 |
++--------+---------+------------+
+5 rows in set (0.02 sec)
+
+mysql> select * from customer inner join Invoice_master on customer.id=Invoice_master.cust_id inner join Invoice_item on Invoice_master.inv_id=Invoice_item.inv_id inner join Product on Invoice_item.pid=Product.pid where inv_date='2021-01-01';
++-------+------+------------+-----------+-----------+--------+---------+------------+--------+------+----------+------+----------+-------+
+| id    | name | address    | city      | ph_no     | inv_id | cust_id | inv_date   | inv_id | pid  | quantity | pid  | pname    | price |
++-------+------+------------+-----------+-----------+--------+---------+------------+--------+------+----------+------+----------+-------+
+| 10002 | Ram  | xyz(h)w(p) | kozhikode | 987653210 |    102 |   10002 | 2021-01-01 |    102 | 3003 |        2 | 3003 | A4 Sheet |   102 |
++-------+------+------------+-----------+-----------+--------+---------+------------+--------+------+----------+------+----------+-------+
+1 row in set (0.00 sec)
+
+
+
