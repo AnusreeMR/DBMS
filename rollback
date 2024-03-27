@@ -1,0 +1,193 @@
+TCL(Transaction Control Language)
+---------------------------------
+Commit
+-----------------------------------------------------------------------------------------------------------------
+
+mysql> select * from students;
++------+---------+------+------+------------+
+| name | roll_no | age  | mark | percentage |
++------+---------+------+------+------------+
+| ammu |       1 |   20 | 10.5 |       NULL |
+| ammu |       1 |   20 | 10.5 |       11.5 |
++------+---------+------+------+------------+
+2 rows in set (0.01 sec)
+
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values('Shanu',2,10,12,21.5);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from students;
++------+---------+------+------+------------+
+| name | roll_no | age  | mark | percentage |
++------+---------+------+------+------------+
+| ammu |       1 |   20 | 10.5 |       NULL |
+| ammu |       1 |   20 | 10.5 |       11.5 |
++------+---------+------+------+------------+
+2 rows in set (0.01 sec)
+
+
+
+RollBack
+---------------------------------------------------------------------------------------------------------------
+
+mysql> insert into students values('Shanu',2,10,12,21.5);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+select * from students;
++-------+---------+------+------+------------+
+| name  | roll_no | age  | mark | percentage |
++-------+---------+------+------+------------+
+| ammu  |       1 |   20 | 10.5 |       NULL |
+| ammu  |       1 |   20 | 10.5 |       11.5 |
+| Shanu |       2 |   10 |   12 |       21.5 |
++-------+---------+------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from students where name='Shanu';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from students;
++------+---------+------+------+------------+
+| name | roll_no | age  | mark | percentage |
++------+---------+------+------+------------+
+| ammu |       1 |   20 | 10.5 |       NULL |
+| ammu |       1 |   20 | 10.5 |       11.5 |
++------+---------+------+------+------------+
+2 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.50 sec)
+
+mysql> select * from students;
++-------+---------+------+------+------------+
+| name  | roll_no | age  | mark | percentage |
++-------+---------+------+------+------------+
+| ammu  |       1 |   20 | 10.5 |       NULL |
+| ammu  |       1 |   20 | 10.5 |       11.5 |
+| Shanu |       2 |   10 |   12 |       21.5 |
++-------+---------+------+------+------------+
+3 rows in set (0.00 sec)
+
+Savepoint
+------------------------------------------------------------------------------------------------------
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++-------+---------+------+------+------------+
+| name  | roll_no | age  | mark | percentage |
++-------+---------+------+------+------------+
+| ammu  |       1 |   20 | 10.5 |       NULL |
+| ammu  |       1 |   20 | 10.5 |       11.5 |
+| Shanu |       2 |   10 |   12 |       21.5 |
++-------+---------+------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into students values('Dhathu',3,20,12,21.5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values('Kunju',4,30,12,21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values('Nadhu',5,30,14,21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint s3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++--------+---------+------+------+------------+
+| name   | roll_no | age  | mark | percentage |
++--------+---------+------+------+------------+
+| ammu   |       1 |   20 | 10.5 |       NULL |
+| ammu   |       1 |   20 | 10.5 |       11.5 |
+| Shanu  |       2 |   10 |   12 |       21.5 |
+| Dhathu |       3 |   20 |   12 |       21.5 |
+| Kunju  |       4 |   30 |   12 |         21 |
+| Nadhu  |       5 |   30 |   14 |         21 |
++--------+---------+------+------+------------+
+6 rows in set (0.00 sec)
+
+mysql> rollback to s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++--------+---------+------+------+------------+
+| name   | roll_no | age  | mark | percentage |
++--------+---------+------+------+------------+
+| ammu   |       1 |   20 | 10.5 |       NULL |
+| ammu   |       1 |   20 | 10.5 |       11.5 |
+| Shanu  |       2 |   10 |   12 |       21.5 |
+| Dhathu |       3 |   20 |   12 |       21.5 |
+| Kunju  |       4 |   30 |   12 |         21 |
++--------+---------+------+------+------------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.64 sec)
+
+DCL(Data Control Language)
+--------------------------
+Grant
+---------------------------------------------------------------------------------------------------------------------------------
+
+mysql> create user anu@'localhost' identified by'mypass';
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> create user Dhathu@'localhost' identified by'pass';
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> grant select on INVOICE.customer to anu@'localhost';
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> show grants for anu@'localhost';
++-----------------------------------------------------------+
+| Grants for anu@localhost                                  |
++-----------------------------------------------------------+
+| GRANT USAGE ON *.* TO `anu`@`localhost`                   |
+| GRANT SELECT ON `INVOICE`.`customer` TO `anu`@`localhost` |
++-----------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> grant delete,update on INVOICE.customer to Dhathu@'localhost';
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> show grants for Dhathu@'localhost';
++----------------------------------------------------------------------+
+| Grants for Dhathu@localhost                                          |
++----------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `Dhathu`@`localhost`                           |
+| GRANT UPDATE, DELETE ON `INVOICE`.`customer` TO `Dhathu`@`localhost` |
++----------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+REVOKE
+-------------------------------------------------------------------------------------------------------------------------
+
+mysql> revoke delete on INVOICE.customer from Dhathu@'localhost';
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> show grants for Dhathu@'localhost';
++--------------------------------------------------------------+
+| Grants for Dhathu@localhost                                  |
++--------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `Dhathu`@`localhost`                   |
+| GRANT UPDATE ON `INVOICE`.`customer` TO `Dhathu`@`localhost` |
++--------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
