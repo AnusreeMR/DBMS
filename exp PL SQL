@@ -1,0 +1,88 @@
+1.Create a procedure to display all tables in the invoice database. 
+
+mysql> delimiter //
+mysql> create procedure t1() begin
+    -> select * from customer;
+    -> select * from Product;
+    -> select * from Invoice_item;
+    -> select * from Invoice_master;
+    -> end //
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> call t1();
+    -> //
++-------+--------+-------------+-----------+-----------+
+| id    | name   | address     | city      | ph_no     |
++-------+--------+-------------+-----------+-----------+
+| 10001 | Maya   | abc(h)zo(p) | ekm       | 759309853 |
+| 10002 | Ram    | xyz(h)w(p)  | kozhikode | 987653210 |
+| 10003 | kunju  | bcd(h)o(p)  | tvm       |      NULL |
+| 10004 | chikku | mno(h)a(p)  | tvm       | 904567891 |
+| 10005 | minnu  | hos(h)lk(p) | ekm       | 904567891 |
++-------+--------+-------------+-----------+-----------+
+5 rows in set (0.00 sec)
+
++------+-----------+-------+
+| pid  | pname     | price |
++------+-----------+-------+
+| 3001 | pencil    |    17 |
+| 3002 | pen       |    20 |
+| 3003 | A4 Sheet  |   102 |
+| 3004 | Bottle    |    51 |
+| 3005 | color pen |    82 |
++------+-----------+-------+
+5 rows in set (0.00 sec)
+
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    104 | 3005 |        4 |
+|    102 | 3003 |        2 |
+|    103 | 3004 |        5 |
+|    105 | 3005 |        4 |
+|    101 | 3001 |        1 |
+|    101 | 3002 |        1 |
++--------+------+----------+
+6 rows in set (0.00 sec)
+
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    101 |   10001 | 2023-01-10 |
+|    102 |   10002 | 2021-01-01 |
+|    103 |   10003 | 2021-05-19 |
+|    104 |   10004 | 2023-10-25 |
+|    105 |   10005 | 2023-04-18 |
++--------+---------+------------+
+5 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+2. Create a procedure to find sum of two numbers.
+
+mysql> delimiter //
+mysql> create procedure sum2(a int,b int) 
+    -> begin
+    -> declare x,y,z int;
+    -> set x=a;
+    -> set y=b;
+    -> set z=x+y;
+    -> select z as "sum";
+    -> end //
+Query OK, 0 rows affected (0.58 sec)
+
+mysql> call sum2(5,3);
+    -> //
++------+
+| sum  |
++------+
+|    8 |
++------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+
