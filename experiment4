@@ -62,5 +62,5 @@ mysql> select * from customer where city='ekm' or 'tvm';
 | 10005 | minnu | hos(h)lk(p) | ekm  | 904567891 |
 +-------+-------+-------------+------+-----------+
 2 rows in set, 1 warning (0.00 sec)
-
+//VERIFIED
 
