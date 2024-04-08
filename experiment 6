@@ -92,4 +92,4 @@ mysql> select city,count(*) from customer group by city having count(city)>1;
 +------+----------+
 2 rows in set (0.00 sec)
 
- 
+ //VERIFIED
