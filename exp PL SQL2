@@ -71,5 +71,5 @@ mysql> select * from cust;//
 +-------+------+-------------+-----------+-----------+
 2 rows in set (0.00 sec)
 
-
+//VERIFIED
 
