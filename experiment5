@@ -113,3 +113,4 @@ mysql> select pname from Product where pid in( select pid from Invoice_item wher
 +-----------+
 2 rows in set (0.01 sec)
 
+//VERIFIED
